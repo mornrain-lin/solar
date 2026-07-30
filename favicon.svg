@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <style>
+      .line { stroke: #c4a265; stroke-width: 0.5; fill: none; }
+      .sun { fill: #c4a265; }
+      .char { fill: #2c2c2c; font-family: serif; font-size: 10px; text-anchor: middle; }
+    </style>
+  </defs>
+  <!-- 24 tick marks -->
+  <g transform="translate(16,16)">
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(0)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(15)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(30)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(45)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(60)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(75)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(90)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(105)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(120)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(135)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(150)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(165)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(180)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(195)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(210)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(225)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(240)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(255)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(270)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(285)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(300)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(315)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(330)"/>
+    <line class="line" x1="0" y1="-14" x2="0" y2="-12" transform="rotate(345)"/>
+    <!-- Sun circle -->
+    <circle class="sun" r="5.5"/>
+    <!-- Central character -->
+    <text class="char" x="0" y="3.5">節</text>
+  </g>
+</svg>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Solar — 二十四节气数字画卷。以水墨美学与交互式 Web 技术呈现中国传统二十四节气的数字艺术项目。">
+  <meta name="keywords" content="二十四节气, 水墨, 东方美学, 传统文化, 数字艺术, 中国日历, 节气">
+  <meta name="author" content="Solar Contributors">
+  <meta name="theme-color" content="#faf6f0">
+  <meta property="og:title" content="Solar — 二十四节气数字画卷">
+  <meta property="og:description" content="A digital art piece that brings the ancient Chinese calendar to life through ink-wash aesthetics.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solar — 二十四节气数字画卷">
+  <meta name="twitter:description" content="A digital art piece that brings the ancient Chinese calendar to life through ink-wash aesthetics.">
+  <title>Solar — 二十四节气数字画卷</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Canvas 水墨粒子背景层 -->
+  <canvas id="ink-canvas"></canvas>
+
+  <!-- 主体内容层 -->
+  <main class="main-container" id="main-container">
+    <!-- Hero: 当前节气大字 -->
+    <section class="hero-section" id="hero-section">
+      <h1 class="current-term-char" id="current-term-char">立</h1>
+      <div class="term-subtitle">
+        <span class="term-date" id="term-date"></span>
+        <span class="term-phenology" id="term-phenology"></span>
+      </div>
+    </section>
+
+    <!-- SVG 节气圆轮 -->
+    <div class="wheel-container" id="wheel-container">
+      <svg id="solar-wheel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <radialGradient id="wheel-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(196,162,101,0.05)"/>
+            <stop offset="100%" stop-color="rgba(196,162,101,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- 同心圆装饰 -->
+        <circle cx="200" cy="200" r="180" class="wheel-deco-circle"/>
+        <circle cx="200" cy="200" r="130" class="wheel-deco-circle"/>
+        <circle cx="200" cy="200" r="80" class="wheel-deco-circle"/>
+        <circle cx="200" cy="200" r="185" fill="url(#wheel-bg)"/>
+        <!-- 24节点由 JS 动态渲染 -->
+        <g id="wheel-nodes-group"></g>
+      </svg>
+    </div>
+
+    <!-- 底部工具栏 -->
+    <div class="toolbar" id="toolbar">
+      <button class="seal-btn active" data-filter="all">全部</button>
+      <button class="seal-btn" data-filter="spring">春</button>
+      <button class="seal-btn" data-filter="summer">夏</button>
+      <button class="seal-btn" data-filter="autumn">秋</button>
+      <button class="seal-btn" data-filter="winter">冬</button>
+    </div>
+    <div class="toolbar" style="margin-top:0.25rem">
+      <button class="action-btn" id="btn-export" title="导出为 PNG 图片">导出日历</button>
+      <button class="action-btn" id="btn-overview">节气总览</button>
+    </div>
+  </main>
+
+  <!-- 弹窗层: 节气详情卡片 -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="detail-card" id="detail-card">
+      <button class="card-close" id="card-close" aria-label="关闭">&#10005;</button>
+      <div id="card-content"></div>
+    </div>
+  </div>
+
+  <!-- 弹窗层: 节气总览 -->
+  <div class="modal-overlay" id="overview-modal">
+    <div class="detail-card" id="overview-card">
+      <button class="card-close" id="overview-close" aria-label="关闭">&#10005;</button>
+      <h2 style="text-align:center;font-family:'Ma Shan Zheng',cursive;font-size:1.8rem;margin-bottom:1rem;">二十四节气总览</h2>
+      <div class="overview-grid" id="overview-grid"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
