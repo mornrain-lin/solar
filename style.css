@@ -526,3 +526,22 @@ body {
   background: rgba(196, 162, 101, 0.3);
   border-radius: 2px;
 }
+
+/* === Site Footer === */
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--ink-light);
+  margin-top: 2rem;
+}
+
+.site-footer a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--transition-normal);
+}
+
+.site-footer a:hover {
+  color: var(--ink);
+}

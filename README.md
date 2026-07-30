@@ -1,15 +1,4 @@
----
-AIGC:
-    Label: "1"
-    ContentProducer: 001191440300708461136T1XGW3
-    ProduceID: cf93d2ba4252e3fc820ac383cb09c649_0a07c1948baa11f18559525400f8a581
-    ReservedCode1: HuchttCS7jLSmin51hISJVCjkLNCzU4RYrpeZMcng0yPfQgq5wLCNFTistPSTgHsfdjpFsdgjHngSPguyhlkNA0RKyF/6AZ+mqCdx6y9dldzph3ZsO77Y+xbeYHqIgozjT16wJpLAzw8ftJV1pw62/3+n7/XcEbdh+1QxhFCgDOge/LkCf5PhWU5lYE=
-    ContentPropagator: 001191440300708461136T1XGW3
-    PropagateID: cf93d2ba4252e3fc820ac383cb09c649_0a07c1948baa11f18559525400f8a581
-    ReservedCode2: HuchttCS7jLSmin51hISJVCjkLNCzU4RYrpeZMcng0yPfQgq5wLCNFTistPSTgHsfdjpFsdgjHngSPguyhlkNA0RKyF/6AZ+mqCdx6y9dldzph3ZsO77Y+xbeYHqIgozjT16wJpLAzw8ftJV1pw62/3+n7/XcEbdh+1QxhFCgDOge/LkCf5PhWU5lYE=
----
-
-# Solar — 二十四节气数字画卷
+# Solar — 二十四节气数字画卷 | by mornrain
 
 > *"A digital art piece that brings the ancient Chinese calendar to life through ink-wash aesthetics and modern web technology."*
 
@@ -18,7 +7,16 @@ AIGC:
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-green.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
+**开发者**: [mornrain.lin](https://github.com/mornrain-lin)
+**网站**: [mornrain.com](https://mornrain.com) | [mornrain.cn](https://mornrain.cn)
+
 Solar 是一个极简纯粹的二十四节气数字艺术项目。它将中国传统水墨美学融入交互式 Web 体验，以 Canvas 粒子水墨背景、SVG 节气圆轮和精美的节气详情卡片，呈现东方文化的诗意与韵律。
+
+## 文化背景
+
+二十四节气起源于黄河流域，是中国古代农耕文明的智慧结晶。它将太阳周年视运动轨迹划分为 24 等份，每 15° 为一节气，精准反映了季节、物候、气候的变化规律。2016 年，"二十四节气"被正式列入联合国教科文组织人类非物质文化遗产代表作名录，成为世界公认的时间知识体系。
+
+> **在线体验**: [https://mornrain.com/solar](https://mornrain.com/solar)
 
 ## ✨ Features
 
@@ -27,6 +25,10 @@ Solar 是一个极简纯粹的二十四节气数字艺术项目。它将中国�
 - 📜 **节气详情卡片** — 毛玻璃弹窗，三候、诗词、农谚、美食、养生一应俱全
 - 🌸 **四季筛选** — 一键切换春/夏/秋/冬，节点平滑过渡
 - 📷 **导出日历** — Canvas 绘制精美节气卡片并导出为 PNG
+- 🗓️ **72候完整数据** — 每个节气的三候物候现象，源自《月令七十二候集解》
+- 🖼️ **节气卡片导出** — Canvas 绘制精美节气卡片，一键导出 PNG 分享
+- ⌨️ **键盘导航** — ← → 切换节气，Esc 关闭弹窗，流畅操作
+- 🌐 **iCal 日历** — 导出全年24节气事件到系统日历
 - 📱 **完美响应式** — 桌面 → 平板 → 手机三档适配
 - 🚫 **零依赖** — 纯 HTML/CSS/JS，不引入任何框架或库（Google Fonts 除外）
 - 🔍 **完整 SEO** — Open Graph、Twitter Card、语义化标签
@@ -34,8 +36,17 @@ Solar 是一个极简纯粹的二十四节气数字艺术项目。它将中国�
 
 ## 📸 Screenshots
 
-<!-- TODO: Add screenshots -->
-![Solar Screenshot](screenshot.png)
+<!-- TODO: Add hero screenshot -->
+![Hero Screenshot](screenshot-hero.png)
+
+<!-- TODO: Add wheel screenshot -->
+![Wheel Screenshot](screenshot-wheel.png)
+
+<!-- TODO: Add detail card screenshot -->
+![Detail Card Screenshot](screenshot-detail.png)
+
+<!-- TODO: Add mobile screenshot -->
+![Mobile Screenshot](screenshot-mobile.png)
 
 ## 🚀 Quick Start
 
@@ -43,7 +54,7 @@ Solar 是一个极简纯粹的二十四节气数字艺术项目。它将中国�
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/solar.git
+git clone https://github.com/mornrain-lin/solar.git
 cd solar
 
 # 用任意 HTTP 服务器打开（可选）
@@ -69,7 +80,7 @@ python -m http.server 8080
 solar/
 ├── index.html      # 主页面，三层结构
 ├── style.css       # 东方水墨美学样式
-├── app.js          # 核心交互逻辑（约 500 行）
+├── app.js          # 核心交互逻辑
 ├── data.js         # 二十四节气完整数据集
 ├── favicon.svg     # 极简节气图标
 ├── README.md       # 项目文档
@@ -99,9 +110,8 @@ solar/
 ## ⭐ Star History
 
 <!-- TODO: Add star history chart -->
-[![Star History Chart](https://api.star-history.com/svg?repos=your-username/solar&type=Date)](https://star-history.com/#your-username/solar&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=mornrain-lin/solar&type=Date)](https://star-history.com/#mornrain-lin/solar&Date)
 
 ## 📄 License
 
-MIT © 2026 Solar Contributors
-*（内容由AI生成，仅供参考）*
+MIT © 2026 mornrain Contributors

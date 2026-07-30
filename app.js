@@ -354,6 +354,7 @@ function openDetail(index) {
       </div>
     </div>
     <div class="card-nav">
+      <button class="card-nav-btn" id="card-share">复制分享文案</button>
       <button class="card-nav-btn" id="card-prev">&larr; 上一个</button>
       <button class="card-nav-btn" id="card-next">下一个 &rarr;</button>
     </div>
@@ -368,6 +369,19 @@ function openDetail(index) {
   });
   document.getElementById("card-next").addEventListener("click", () => {
     openDetail((modalTermIndex + 1) % 24);
+  });
+
+  // 分享按钮
+  document.getElementById("card-share").addEventListener("click", () => {
+    const t = solarTerms[modalTermIndex];
+    const text = `【${t.name}】${t.dateRange} | 三候：${t.threeHou.join("、")} | 农谚：${t.proverb} — 来自 Solar 二十四节气数字画卷 https://mornrain.com/solar`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("card-share");
+      const orig = btn.textContent;
+      btn.textContent = "已复制!";
+      btn.style.color = "var(--gold)";
+      setTimeout(() => { btn.textContent = orig; btn.style.color = ""; }, 1500);
+    }).catch(() => alert("复制失败，请手动复制"));
   });
 }
 
@@ -454,12 +468,73 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* ================================================================
-   7. 导出日历（Canvas截图）
+   7. 导出系统：PNG卡片 + iCal日历
    ================================================================ */
-document.getElementById("btn-export").addEventListener("click", async () => {
+const exportBtn = document.getElementById("btn-export");
+
+// 导出选择浮层
+function showExportMenu(x, y) {
+  // 移除已有浮层
+  const existing = document.querySelector(".export-menu");
+  if (existing) existing.remove();
+
+  const menu = document.createElement("div");
+  menu.className = "export-menu";
+  menu.style.cssText = `
+    position:fixed;left:${x}px;top:${y}px;
+    background:rgba(250,246,240,0.95);backdrop-filter:blur(12px);
+    border:1px solid rgba(196,162,101,0.3);border-radius:4px;
+    padding:0.4rem 0;z-index:200;box-shadow:var(--card-shadow);
+    min-width:160px;
+  `;
+  menu.innerHTML = `
+    <div class="export-menu-item" data-type="png">🎋 导出 PNG 卡片</div>
+    <div class="export-menu-item" data-type="ics">📅 导出 iCal 日历</div>
+  `;
+  document.body.appendChild(menu);
+
+  // 样式注入
+  if (!document.getElementById("export-menu-style")) {
+    const style = document.createElement("style");
+    style.id = "export-menu-style";
+    style.textContent = `
+      .export-menu-item {
+        padding:0.5rem 1rem;cursor:pointer;font-size:0.85rem;
+        color:var(--ink);transition:background var(--transition-normal);
+        white-space:nowrap;
+      }
+      .export-menu-item:hover {background:rgba(196,162,101,0.1);color:var(--gold);}
+    `;
+    document.head.appendChild(style);
+  }
+
+  menu.querySelector('[data-type="png"]').addEventListener("click", () => {
+    menu.remove();
+    exportPNG();
+  });
+  menu.querySelector('[data-type="ics"]').addEventListener("click", () => {
+    menu.remove();
+    exportICS();
+  });
+
+  // 点击外部关闭
+  const closeMenu = (e) => {
+    if (!menu.contains(e.target) && e.target !== exportBtn) {
+      menu.remove();
+      document.removeEventListener("click", closeMenu);
+    }
+  };
+  setTimeout(() => document.addEventListener("click", closeMenu), 0);
+}
+
+exportBtn.addEventListener("click", (e) => {
+  const rect = exportBtn.getBoundingClientRect();
+  showExportMenu(rect.left, rect.bottom + 4);
+});
+
+// PNG 导出（含水印）
+function exportPNG() {
   try {
-    // 使用 html2canvas 库的思路：手动用 Canvas 绘制当前屏幕
-    // 零依赖方案：用 Canvas 2D 绘制简化版导出图
     const exportCanvas = document.createElement("canvas");
     exportCanvas.width = 800;
     exportCanvas.height = 1000;
@@ -518,15 +593,106 @@ document.getElementById("btn-export").addEventListener("click", async () => {
     exCtx.fillText("Solar · 二十四节气数字画卷", 400, 930);
     exCtx.fillText(term.nameEn + " · " + term.pinyin, 400, 960);
 
+    // 水印
+    exCtx.font = "12px 'Noto Serif SC', serif";
+    exCtx.fillStyle = "rgba(140,140,140,0.35)";
+    exCtx.textAlign = "right";
+    exCtx.fillText("@mornrain.com", 780, 985);
+
     // 下载
     const link = document.createElement("a");
     link.download = `solar_${term.name}_${new Date().toISOString().slice(0,10)}.png`;
     link.href = exportCanvas.toDataURL("image/png");
     link.click();
   } catch (err) {
-    alert("导出失败: " + err.message);
+    alert("PNG 导出失败: " + err.message);
   }
-});
+}
+
+// iCal 日历导出
+function exportICS() {
+  try {
+    // 2026年节气近似日期（月日）
+    const termDates2026 = [
+      { i: 23, m: 1, d: 5 },   // 小寒
+      { i: 24, m: 1, d: 20 },  // 大寒
+      { i: 0,  m: 2, d: 3 },   // 立春
+      { i: 1,  m: 2, d: 18 },  // 雨水
+      { i: 2,  m: 3, d: 5 },   // 惊蛰
+      { i: 3,  m: 3, d: 20 },  // 春分
+      { i: 4,  m: 4, d: 4 },   // 清明
+      { i: 5,  m: 4, d: 19 },  // 谷雨
+      { i: 6,  m: 5, d: 5 },   // 立夏
+      { i: 7,  m: 5, d: 20 },  // 小满
+      { i: 8,  m: 6, d: 5 },   // 芒种
+      { i: 9,  m: 6, d: 21 },  // 夏至
+      { i: 10, m: 7, d: 6 },   // 小暑
+      { i: 11, m: 7, d: 22 },  // 大暑
+      { i: 12, m: 8, d: 7 },   // 立秋
+      { i: 13, m: 8, d: 22 },  // 处暑
+      { i: 14, m: 9, d: 7 },   // 白露
+      { i: 15, m: 9, d: 22 },  // 秋分
+      { i: 16, m: 10, d: 8 },  // 寒露
+      { i: 17, m: 10, d: 23 }, // 霜降
+      { i: 18, m: 11, d: 7 },  // 立冬
+      { i: 19, m: 11, d: 22 }, // 小雪
+      { i: 20, m: 12, d: 6 },  // 大雪
+      { i: 21, m: 12, d: 21 }, // 冬至
+      { i: 22, m: 12, d: 22 }, // 重复兜底→用冬至
+    ];
+
+    // 去重，按日期排序
+    const seen = new Set();
+    const unique = [];
+    for (const t of termDates2026) {
+      const key = `${t.m}-${t.d}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(t);
+      }
+    }
+    unique.sort((a, b) => a.m !== b.m ? a.m - b.m : a.d - b.d);
+
+    const pad = (n) => String(n).padStart(2, "0");
+
+    let ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Solar//二十四节气//ZH",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "X-WR-CALNAME:二十四节气 (Solar Terms)",
+      "X-WR-CALDESC:中国传统二十四节气 · Solar by mornrain",
+      "X-WR-TIMEZONE:Asia/Shanghai"
+    ];
+
+    for (const t of unique) {
+      const term = solarTerms[t.i];
+      if (!term) continue;
+      const dtStr = `2026${pad(t.m)}${pad(t.d)}`;
+      ics.push("BEGIN:VEVENT");
+      ics.push(`UID:solar-${term.nameEn.replace(/\s/g,"")}-2026@mornrain.com`);
+      ics.push(`DTSTART;VALUE=DATE:${dtStr}`);
+      ics.push(`DTEND;VALUE=DATE:${dtStr}`);
+      ics.push(`SUMMARY:${term.name} ${term.nameEn}`);
+      ics.push(`DESCRIPTION:${term.meaning}\\n三候：${term.threeHou.join("、")}\\n农谚：${term.proverb}\\n— Solar 二十四节气数字画卷`);
+      ics.push(`CATEGORIES:节气,${term.season}`);
+      ics.push("TRANSP:TRANSPARENT");
+      ics.push("END:VEVENT");
+    }
+
+    ics.push("END:VCALENDAR");
+
+    const blob = new Blob([ics.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+    const link = document.createElement("a");
+    link.download = "solar_2026_24terms.ics";
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+  } catch (err) {
+    alert("iCal 导出失败: " + err.message);
+  }
+}
 
 /* ================================================================
    8. 初始化
