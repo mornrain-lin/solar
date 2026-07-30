@@ -114,4 +114,4 @@ solar/
 
 ## 📄 License
 
-MIT © 2026 mornrain Contributors
+MIT © 2026 mornrain-lin 贡献者
