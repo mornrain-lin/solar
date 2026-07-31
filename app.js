@@ -662,7 +662,7 @@ function exportICS() {
       "CALSCALE:GREGORIAN",
       "METHOD:PUBLISH",
       "X-WR-CALNAME:二十四节气 (Solar Terms)",
-      "X-WR-CALDESC:中国传统二十四节气 · Solar by mornrain",
+      "X-WR-CALDESC:中国传统二十四节气 · Solar by mornrain.lin",
       "X-WR-TIMEZONE:Asia/Shanghai"
     ];
 
@@ -671,7 +671,7 @@ function exportICS() {
       if (!term) continue;
       const dtStr = `2026${pad(t.m)}${pad(t.d)}`;
       ics.push("BEGIN:VEVENT");
-      ics.push(`UID:solar-${term.nameEn.replace(/\s/g,"")}-2026@mornrain.com`);
+      ics.push(`UID:solar-${term.nameEn.replace(/\s/g,"")}-mornrain.lin@outlook.com`);
       ics.push(`DTSTART;VALUE=DATE:${dtStr}`);
       ics.push(`DTEND;VALUE=DATE:${dtStr}`);
       ics.push(`SUMMARY:${term.name} ${term.nameEn}`);
